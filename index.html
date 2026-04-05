@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My Homepage</title>
+    <link rel="icon" href="./static/img/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="./static/css/all.min.css">
+    <link rel="stylesheet" href="./static/css/styles.css">
+</head>
+<body class="color1">
+    <main class="main-content">
+        <div class="color-switch">
+            <div class="color-btn color3" data-color="color3"></div>
+            <div class="color-btn color2" data-color="color2"></div>
+            <div class="color-btn color1" data-color="color1"></div>
+            <div class="color-btn color4" data-color="color4"></div>
+        </div>
+
+        <img src="./static/img/music.svg" alt="播放音乐" class="music-btn" id="musicToggleBtn">
+        <audio id="backgroundMusic" loop>
+            <source src="#" type="audio/mpeg">
+            您的浏览器不支持音频播放
+        </audio>
+
+        <section class="profile-section">
+            <div class="profile">
+                <div style="position: relative; display: inline-block;">
+                    <img src="./static/img/logo.png" alt="Logo" class="avatar">
+                    <img src="./static/img/v.png" alt="V认证" style="position: absolute; bottom: 20px; right: 5px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #ffffff; z-index: 10;">
+                </div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> <!-- 占位符：你的位置 -->
+                </div>
+            </div>
+            <h1>Hello, I'm <span class="name" style="background: linear-gradient(to right, blue, purple); -webkit-background-clip: text; color: transparent;">YourName</span></h1>
+            <p class="bio"> <!-- 占位符：你的个人简介 --> </p>
+        </section>
+
+        <div class="nav-links">
+            <a id="openBlogModalBtn" href="javascript:">Blog</a>
+            <a id="openMovieModalBtn" href="javascript:">Movie</a>
+            <a id="openMusicPageBtn" href="./music.html">Music</a>
+            <a id="openModalBtn" href="javascript:">Friends</a>
+        </div>
+
+        <footer class="footer">
+            <center>
+                <div class="footer-content">
+                    <div class="icp-info">
+                        <a href="#">
+                            <img style="width:16px;margin-right:2px" src="./static/img/hzyo-icp.svg" alt="ICP备案图标"> 占位符ICP备案号
+                        </a>丨
+                        <a href="#">
+                            <img style="width:16px;margin-right:2px" src="./static/img/hzyo-gaba.svg" alt="公安备案图标"> 占位符公安备案号
+                        </a>
+                    </div>
+                </div>
+            </center>
+        </footer>
+
+        <div class="modal" id="myModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>友情链接</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="links-container">
+                    <a href="#" class="link-btn" target="_blank">占位符链接1</a>
+                    <a href="#" class="link-btn" target="_blank">占位符链接2</a>
+                    <a href="#" class="link-btn" target="_blank">占位符链接3</a>
+                    <a href="#" class="link-btn" target="_blank">占位符链接4</a>
+                    <a href="#" class="link-btn" target="_blank">占位符链接5</a>
+                    <a href="#" class="link-btn" target="_blank">占位符链接6</a>
+                    <a href="#" class="link-btn" target="_blank">等待添加</a>
+                    <a href="#" class="link-btn" target="_blank">等待添加</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="blogModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Blog</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="intro-card">
+                    <img class="intro-img" src="./static/img/favicon.ico" alt="Blog图标">
+                    <h3 class="intro-title">占位符博客名称</h3>
+                    <p class="intro-desc">占位符：博客描述</p>
+                    <button class="enter-btn" onclick="window.open('#', '_blank')">点击进入</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="movieModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Movie</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="intro-card">
+                    <img class="intro-img" src="./static/img/favicon.ico" alt="Movie图标">
+                    <h3 class="intro-title">占位符影视名称</h3>
+                    <p class="intro-desc">占位符：影视描述</p>
+                    <button class="enter-btn" onclick="window.open('#', '_blank')">点击进入</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./static/js/main.js"></script>
+</body>
+</html>

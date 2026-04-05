@@ -71,4 +71,13 @@ document.addEventListener('DOMContentLoaded', function() {
             isMusicPlaying = !isMusicPlaying;
         });
     }
+
+    document.body.addEventListener('click', function firstClick() {
+        if (!isMusicPlaying && backgroundMusic.paused) {
+            backgroundMusic.play().catch(() => {});
+            musicBtn.classList.add('playing');
+            isMusicPlaying = true;
+        }
+        document.body.removeEventListener('click', firstClick);
+    });
 });

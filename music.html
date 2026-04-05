@@ -53,7 +53,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
@@ -277,6 +277,57 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
+        .sheet-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sheet-header {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .sheet-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sheet-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(120, 119, 255, 0.3);
+        }
+
+        .sheet-item img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .sheet-item .name {
+            padding: 10px;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .playlist-section {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
@@ -374,11 +425,13 @@
             margin-left: 10px;
         }
 
-        .playlist-section::-webkit-scrollbar {
+        .playlist-section::-webkit-scrollbar,
+        .sheet-section::-webkit-scrollbar {
             width: 4px;
         }
 
-        .playlist-section::-webkit-scrollbar-thumb {
+        .playlist-section::-webkit-scrollbar-thumb,
+        .sheet-section::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
         }
@@ -409,6 +462,10 @@
             .music-card {
                 padding: 20px;
             }
+
+            .sheet-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
     <link rel="stylesheet" href="./static/css/all.min.css">
@@ -431,7 +488,7 @@
                 </div>
                 <div class="album-info">
                     <div class="song-title" id="songTitle">点击播放开始</div>
-                    <div class="song-artist" id="songArtist">网易云音乐热歌榜</div>
+                    <div class="song-artist" id="songArtist">选择一个歌单</div>
                     <div class="progress-section">
                         <div class="progress-bar" id="progressBar">
                             <div class="progress-fill"></div>
@@ -460,18 +517,56 @@
             </div>
         </div>
 
+        <div class="sheet-section">
+            <div class="sheet-header">🎶 歌单列表</div>
+            <div class="sheet-grid" id="sheetGrid">
+                <div class="sheet-item" data-id="3778678">
+                    <img src="./static/img/logo.png" alt="云热歌榜">
+                    <div class="name">云热歌榜</div>
+                </div>
+                <div class="sheet-item" data-id="19723756">
+                    <img src="./static/img/logo.png" alt="云飙升榜">
+                    <div class="name">云飙升榜</div>
+                </div>
+                <div class="sheet-item" data-id="3779629">
+                    <img src="./static/img/logo.png" alt="云新歌榜">
+                    <div class="name">云新歌榜</div>
+                </div>
+                <div class="sheet-item" data-id="2884035">
+                    <img src="./static/img/logo.png" alt="云原创榜">
+                    <div class="name">云原创榜</div>
+                </div>
+                <div class="sheet-item" data-id="6723173524">
+                    <img src="./static/img/logo.png" alt="网络热歌榜">
+                    <div class="name">网络热歌榜</div>
+                </div>
+                <div class="sheet-item" data-id="6688069460">
+                    <img src="./static/img/logo.png" alt="听歌识别榜">
+                    <div class="name">听歌识别榜</div>
+                </div>
+                <div class="sheet-item" data-id="991319590">
+                    <img src="./static/img/logo.png" alt="说唱榜">
+                    <div class="name">说唱榜</div>
+                </div>
+                <div class="sheet-item" data-id="6886768100">
+                    <img src="./static/img/logo.png" alt="中文DJ榜">
+                    <div class="name">中文DJ榜</div>
+                </div>
+            </div>
+        </div>
+
         <div class="playlist-section">
             <div class="playlist-header">
-                <span class="playlist-title">🎶 播放列表</span>
-                <span class="playlist-count" id="playlistCount">加载中...</span>
+                <span class="playlist-title">📋 当前播放列表</span>
+                <span class="playlist-count" id="playlistCount">选择一个歌单</span>
             </div>
             <div id="playlistContainer">
                 <div class="playlist-item" data-index="0">
                     <span class="num">1</span>
                     <div class="cover"><img src="./static/img/logo.png" alt=""></div>
                     <div class="info">
-                        <div class="name">加载中...</div>
-                        <div class="artist">请稍候</div>
+                        <div class="name">请选择上面的歌单</div>
+                        <div class="artist">点击歌单开始播放</div>
                     </div>
                     <span class="duration">--:--</span>
                 </div>
@@ -499,6 +594,7 @@
         let playlist = [];
         let currentIndex = 0;
         let isPlaying = false;
+        let currentPlaylistId = null;
 
         const albumCover = document.getElementById('albumCover');
         const songTitle = document.getElementById('songTitle');
@@ -514,6 +610,29 @@
         const volumeIcon = document.getElementById('volumeIcon');
         const playlistContainer = document.getElementById('playlistContainer');
         const playlistCount = document.getElementById('playlistCount');
+        const sheetGrid = document.getElementById('sheetGrid');
+
+        const sheetCovers = {
+            '3778678': 'https://p1.music.126.net/0SUEG8yDACfx0Bw2MYFv4Q==/109951170048519512.jpg?param=200y200',
+            '19723756': 'https://p1.music.126.net/rIi7Qzy2i2Y_1QD7cd0MYA==/109951170048506929.jpg?param=200y200',
+            '3779629': 'https://p1.music.126.net/5guhqPBTcIrrhLBotgaT6w==/109951170048511751.jpg?param=200y200',
+            '2884035': 'https://p1.music.126.net/BaP9nrocNTL3gGThysv4eQ==/109951170091896587.jpg?param=200y200',
+            '6723173524': 'https://p1.music.126.net/_kSxOPqQ5J5etC5DKTFwNA==/109951170048519530.jpg?imageView=1&type=webp&thumbnail=378x0',
+            '6688069460': 'https://p1.music.126.net/wJVUAiUuykKk7yGbQxDBug==/109951167430857712.jpg?imageView=1&type=webp&thumbnail=378x0',
+            '991319590': 'https://p1.music.126.net/tJUsQEQvh51WpP65bmaTCQ==/109951170091890381.jpg?imageView=1&type=webp&thumbnail=378x0',
+            '6886768100': 'https://p1.music.126.net/w_01BfDU012ojxnzLO6tYw==/109951167977358686.jpg?imageView=1&type=webp&thumbnail=378x0'
+        };
+
+        const sheetNames = {
+            '3778678': '云热歌榜',
+            '19723756': '云飙升榜',
+            '3779629': '云新歌榜',
+            '2884035': '云原创榜',
+            '6723173524': '网络热歌榜',
+            '6688069460': '听歌识别榜',
+            '991319590': '说唱榜',
+            '6886768100': '中文DJ榜'
+        };
 
         function formatTime(seconds) {
             if (isNaN(seconds)) return '0:00';
@@ -564,7 +683,7 @@
 
         playBtn.addEventListener('click', () => {
             if (playlist.length === 0) {
-                fetchPlaylist();
+                loadPlaylist('3778678');
                 return;
             }
             
@@ -639,23 +758,31 @@
             isPlaying = false;
         });
 
-        function fetchPlaylist() {
+        function loadPlaylist(playlistId) {
+            if (currentPlaylistId === playlistId && playlist.length > 0) return;
+            currentPlaylistId = playlistId;
+            
             playlistCount.textContent = '加载中...';
             
-            fetch('https://api.injahow.cn/meting/?server=netease&type=playlist&id=3778678')
+            const cover = sheetCovers[playlistId] || './static/img/logo.png';
+            const name = sheetNames[playlistId] || '未知歌单';
+            
+            albumCover.querySelector('img').src = cover;
+            
+            fetch(`https://api.injahow.cn/meting/?server=netease&type=playlist&id=${playlistId}`)
                 .then(res => res.json())
                 .then(data => {
                     playlist = data.map((song, index) => ({
                         name: song.name,
                         artist: song.artist || '未知艺术家',
                         url: song.url,
-                        pic: song.pic || './static/img/logo.png',
+                        pic: song.pic || cover,
                         duration: formatTime(song.duration || 0)
                     }));
 
                     ap.options.audio = playlist;
                     
-                    playlistCount.textContent = `${playlist.length} 首歌曲`;
+                    playlistCount.textContent = `${playlist.length} 首歌曲 - ${name}`;
                     renderPlaylist();
                     
                     playTrack(0);
@@ -668,6 +795,13 @@
                 });
         }
 
+        document.querySelectorAll('.sheet-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const playlistId = item.dataset.id;
+                loadPlaylist(playlistId);
+            });
+        });
+
         for (let i = 0; i < 15; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
@@ -676,8 +810,6 @@
             particle.style.animationDuration = (15 + Math.random() * 10) + 's';
             document.body.appendChild(particle);
         }
-
-        fetchPlaylist();
     </script>
 </body>
 </html>
